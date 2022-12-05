@@ -1,23 +1,25 @@
 use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
-use std::cmp;
 
 fn main() {
-	let mut largest_elf = 0;
-	let mut tmp_elf = 0;
+    let mut elf_vec = Vec::new();
+    let mut tmp_elf = 0;
     if let Ok(lines) = read_lines("input/day01.txt") {
         for line in lines {
             if let Ok(content) = line {
                 if content == "" {
-					largest_elf = cmp::max(largest_elf, tmp_elf);
+                    elf_vec.push(tmp_elf);
 					tmp_elf = 0;
 				} else {
 					tmp_elf += content.parse::<i32>().unwrap();
 				}
             }
         }
-		println!("largest_elf is {}", largest_elf);
+        elf_vec.sort();
+        elf_vec.reverse();
+		println!("The largest elf is {}", elf_vec[0]);
+        println!("The first 3 largest elf is {}", elf_vec[0]+elf_vec[1]+elf_vec[2]);
     } else {
 		println!("Unable to read file.");
 	}
